@@ -47,20 +47,20 @@ jobs:
           java-version: 17
           distribution: 'temurin'
           
-      - name: Maven build
-        run: mvn clean package -DskipTests
+      - name: maven clean verify  
+        run: mvn clean verify -DnvdApiKey=${{ secrets.NVD_API_KEY_01 }} -DskipTests
 
-      #- name: SonarQube Scan
-        #uses: sonarsource/sonarqube-scan-action@master
-        #with:
-          #projectBaseDir: .
-          #args: >
-            #-Dsonar.organization=cloud-solution-us
-            #-Dsonar.projectKey=bank-app-backend
-            #-Dsonar.java.binaries=target/classes
-            #-Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-        #env:
-          #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      - name: SonarQube Scan
+        uses: sonarsource/sonarqube-scan-action@master
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.organization=cloud-solution-us
+            -Dsonar.projectKey=bank-app-backend
+            -Dsonar.java.binaries=target/classes
+            -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         
              
