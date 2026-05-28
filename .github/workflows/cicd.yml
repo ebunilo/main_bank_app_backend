@@ -12,7 +12,7 @@ jobs:
   Continues-Integration_build_and_push:
     runs-on: ubuntu-latest
     env:
-      ECR_REGISTRY: 488850521901.dkr.ecr.us-east-1.amazonaws.com/bank-backendapi
+      ECR_REGISTRY: 488850521901.dkr.ecr.us-east-1.amazonaws.com
       ECR_REPOSITORY: bank-backendapi
       AWS_REGION: us-east-1
       IMAGE_TAG: ${{ github.run_number }}
@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Continues-Integration_build_and_push
     env:
-      ECR_REGISTRY: 488850521901.dkr.ecr.us-east-1.amazonaws.com/bank-backendapi
+      ECR_REGISTRY: 488850521901.dkr.ecr.us-east-1.amazonaws.com
       ECR_REPOSITORY: bank-backendapi
       IMAGE_TAG: ${{ github.run_number }}
     steps:
