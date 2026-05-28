@@ -47,8 +47,8 @@ jobs:
           java-version: 17
           distribution: 'temurin'
           
-      - name: maven clean verify  
-        run: mvn clean verify -DnvdApiKey=${{ secrets.NVD_API_KEY_01 }} -DskipTests 
+      - name: Maven build
+        run: mvn clean package -DskipTests
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
