@@ -69,7 +69,7 @@ jobs:
          git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/pod9project/kubernetes-manifest.git
          
          cd kubernetes-manifest
-         git config --global user.email"pod14everyone@gmail.com"
+         git config --global user.email "pod14everyone@gmail.com"
          git config --global user.name "pod14_project"
 
          sed -i "s+${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:.*+${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}+g" ./bank-project/backendapi.yaml
@@ -80,3 +80,4 @@ jobs:
          git commit -m "Update backendapi image to version ${{ env.IMAGE_TAG }}"
          git push origin main
         
+#top
