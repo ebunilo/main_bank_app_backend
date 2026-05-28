@@ -56,29 +56,37 @@ jobs:
   Continues-Update_k8s_manifest:
     runs-on: ubuntu-latest
     needs: Continues-Integration_build_and_push
-    env:
-      ECR_REGISTRY: 488850521901.dkr.ecr.us-east-1.amazonaws.com
-      ECR_REPOSITORY: bank-backendapi
-      IMAGE_TAG: ${{ github.run_number }}
     steps:
-    - name: Checkout repository
-      env:
-          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+    - name: Checkout manifest repository
+      uses: actions/checkout@v4
+      with:
+          repository: Digital-Witch-Cloud-Computing-POD-14/kubernetes-manifest
+          token: ${{secrets.GIT_PASSWORD}}
+          path: kubernetes-manifest
+
+    - name: Update manifest and push
       run: |
-         git clone https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/Digital-Witch-Cloud-Computing-POD-14/kubernetes-manifest.git
+        cd kubernetes-manifest
+        git config --global user.email "pod14everyone@gmail.com"
+        git config --global user.name "pod14_project"
 
-         
-         cd kubernetes-manifest
-         git config --global user.email "pod14everyone@gmail.com"
-         git config --global user.name "pod14_project"
+        # Debug: Let's see the file before we touch it
+        cat bank-project/backendapi.yaml
 
-         sed -i "s+${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:.*+${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}+g" ./bank-project/backendapi.yaml
+        # Update the image tag - finding the 'image:' line is safer
+        sed -i "s|image:.*|image: ${{vars.ECR_REPO}}:${{github.run_number}}|g" bank-project/backendapi.yaml
 
-         cat ./bank-project/backendapi.yaml | grep -q "${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
+        # Verify the change
+        grep "${{vars.ECR_REPO}}:${{github.run_number}}" bank-project/backendapi.yaml
 
-         git add bank-project/backendapi.yaml
-         git commit -m "Update backendapi image to version ${{ env.IMAGE_TAG }}"
-         git push origin main
-        
-#top
+        git add bank-project/backendapi.yaml
+        git commit -m "Update backend image to version ${{github.run_number}}"
+        git push origin main
+
+
+
+
+
+
+
+
