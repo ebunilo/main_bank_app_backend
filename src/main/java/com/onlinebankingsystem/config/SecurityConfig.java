@@ -36,8 +36,8 @@ public class SecurityConfig {
 	@Autowired
 	private JwtAuthFilter authFilter;
 
-	// 1. Pull the URL value from application.properties professionally
-	@Value("${app.cors.allowed-origins:http://localhost:3000}")
+	// 1. Pull the URL value from application.properties or environment variable professionally
+	@Value("${app.cors.allowed-origins:${CORS_ALLOWED_ORIGINS:http://localhost:3000}}")
 	private String allowedOrigins;
 
 	@Bean
