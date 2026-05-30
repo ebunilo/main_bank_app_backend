@@ -1,4 +1,4 @@
-ppackage com.onlinebankingsystem;
+package com.onlinebankingsystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
